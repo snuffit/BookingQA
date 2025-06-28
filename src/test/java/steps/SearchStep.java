@@ -2,6 +2,7 @@ package steps;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -9,7 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 import java.util.List;
@@ -59,5 +59,16 @@ public class SearchStep {
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    @And("{string} hotel  rating is {string}")
+    public void hotelRatingIs(String expectedResult, String expectedRating) {
+        boolean isRatingEquals = driver.findElement(By.xpath(
+                        String.format("//div[text()='%s']/ancestor::*[@data-testid='property-card-container']" +
+                                "//*[@data-testid='review-score']//*[@aria-hidden='true']", expectedResult)))
+                .getText()
+                .equals(expectedRating);
+
+        assertTrue(isRatingEquals);
     }
 }
